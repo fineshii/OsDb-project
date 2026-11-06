@@ -395,9 +395,10 @@ The dashboard was captured with the master connected, a worker online, an upload
 | Prettier                       | [Run output](evidence/format-run-2026-11-06.txt)          |
 | Vite production build          | [Build output](evidence/web-build-2026-11-06.txt)         |
 | MySQL — Tables after migration | [Query output](evidence/mysql-tables-2026-11-06.txt)      |
+| Docker Compose — MySQL startup and migrations | [Run output](evidence/docker-compose-2026-11-06.txt) |
 
 The full test run on 2026-11-06 passed **16 suites and 94 tests**. ESLint, Prettier check, and the Vite production build also passed. The MySQL query returned the eight application tables plus Knex's two migration-tracking tables.
 
-**Reproducibility notes:** These checks ran on Node.js v22.14.0 and MySQL 8.0.43. Docker Compose startup could not be verified on this machine because the Docker CLI is not installed. The project is hosted at `https://github.com/fineshii/OsDb-project`; this private repository requires collaborator access. A clean clone has not yet been tested.
+**Reproducibility notes:** The full test suite ran on Node.js v22.14.0 and MySQL 8.0.43. Docker Compose was subsequently verified with Docker Desktop 29.9.2, Compose 5.6.1, and MySQL 8.0.46: the database container started and all five Knex migrations completed. Host port 3306 was already occupied by a Windows MySQL process, so the ignored local `.env` uses port 3307 for the Compose database. The project is hosted at `https://github.com/fineshii/OsDb-project`; this private repository requires collaborator access. A clean clone has not yet been tested.
 
 The temporary source files used for the dashboard screenshots were removed. I left the demo room and its uploaded sample files in the local database because additional jobs and run history appeared in that room during capture; deleting it would also remove those records.

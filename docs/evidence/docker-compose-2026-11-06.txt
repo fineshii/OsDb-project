@@ -1,0 +1,27 @@
+Docker Desktop: 29.9.2 (desktop-linux)
+Docker Compose: v5.6.1
+Image: mysql:8.0 (resolved server version 8.0.46)
+
+Initial startup attempt on host port 3306:
+Failed because Windows process mysqld (PID 6508) was already listening on TCP 3306.
+
+Local ignored .env adjustment:
+DB_PORT changed to 3307. Existing credentials were preserved and are not recorded here.
+
+Startup:
+$ docker compose up -d mysql
+Container cloud_simulator_mysql Started
+
+Container status:
+$ docker compose ps
+cloud_simulator_mysql  mysql:8.0  Up  0.0.0.0:3307->3306/tcp
+
+Database migrations:
+$ npm --prefix master run migrate
+Using environment: development
+Batch 1 run: 5 migrations
+
+Repeat migration check:
+$ npm --prefix master run migrate
+Using environment: development
+Already up to date
