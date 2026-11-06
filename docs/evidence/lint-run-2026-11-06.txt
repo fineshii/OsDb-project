@@ -1,0 +1,1 @@
+PASS: eslint . completed with no diagnostics.

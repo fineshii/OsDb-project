@@ -1,0 +1,789 @@
+{
+  "measuredAt": "2026-11-06",
+  "nodeVersion": "v22.14.0",
+  "mysqlVersion": "8.0.43",
+  "database": "isolated empty MySQL 8 schema",
+  "fileCount": 100,
+  "fileSizeBytes": 1024,
+  "totalDatasetBytes": 102400,
+  "repetitionsPerQuery": 10,
+  "queryTerms": ["benchdistributed", "benchalgorithm", "benchscheduling", "benchpreemptive"],
+  "roomCode": "NL8OK3",
+  "indexedJobCount": 100,
+  "summary": [
+    {
+      "query": "benchdistributed",
+      "mediansMs": {
+        "like": 1.07,
+        "fulltext": 1.2,
+        "index": 1.17
+      },
+      "counts": {
+        "like": 100,
+        "fulltext": 100,
+        "index": 100
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "mediansMs": {
+        "like": 1.18,
+        "fulltext": 1.42,
+        "index": 1.01
+      },
+      "counts": {
+        "like": 70,
+        "fulltext": 70,
+        "index": 70
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "mediansMs": {
+        "like": 1.21,
+        "fulltext": 1.14,
+        "index": 0.86
+      },
+      "counts": {
+        "like": 40,
+        "fulltext": 40,
+        "index": 40
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "mediansMs": {
+        "like": 1.63,
+        "fulltext": 0.97,
+        "index": 0.83
+      },
+      "counts": {
+        "like": 12,
+        "fulltext": 12,
+        "index": 12
+      }
+    }
+  ],
+  "observations": [
+    {
+      "query": "benchdistributed",
+      "repetition": 1,
+      "modes": {
+        "like": {
+          "timeMs": 2.15,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 2.25,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.78,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 2,
+      "modes": {
+        "like": {
+          "timeMs": 0.96,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.35,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 0.89,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 3,
+      "modes": {
+        "like": {
+          "timeMs": 1.12,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.08,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 2.04,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 4,
+      "modes": {
+        "like": {
+          "timeMs": 0.98,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.11,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 0.97,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 5,
+      "modes": {
+        "like": {
+          "timeMs": 0.95,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.19,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.14,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 6,
+      "modes": {
+        "like": {
+          "timeMs": 1.26,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.51,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.12,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 7,
+      "modes": {
+        "like": {
+          "timeMs": 1.17,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.39,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.19,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 8,
+      "modes": {
+        "like": {
+          "timeMs": 0.91,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.04,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.42,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 9,
+      "modes": {
+        "like": {
+          "timeMs": 1.11,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.21,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 1.21,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchdistributed",
+      "repetition": 10,
+      "modes": {
+        "like": {
+          "timeMs": 1.03,
+          "count": 100
+        },
+        "fulltext": {
+          "timeMs": 1.17,
+          "count": 100
+        },
+        "index": {
+          "timeMs": 0.81,
+          "count": 100
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 1,
+      "modes": {
+        "like": {
+          "timeMs": 1.14,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.37,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 0.89,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 2,
+      "modes": {
+        "like": {
+          "timeMs": 0.92,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.56,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 1.22,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 3,
+      "modes": {
+        "like": {
+          "timeMs": 1.53,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.41,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 0.91,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 4,
+      "modes": {
+        "like": {
+          "timeMs": 1.09,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 0.93,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 0.93,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 5,
+      "modes": {
+        "like": {
+          "timeMs": 1.22,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.13,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 1.08,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 6,
+      "modes": {
+        "like": {
+          "timeMs": 1.6,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.66,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 1.08,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 7,
+      "modes": {
+        "like": {
+          "timeMs": 1.4,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.43,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 1.67,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 8,
+      "modes": {
+        "like": {
+          "timeMs": 0.98,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.58,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 1.31,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 9,
+      "modes": {
+        "like": {
+          "timeMs": 1.86,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.23,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 0.91,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchalgorithm",
+      "repetition": 10,
+      "modes": {
+        "like": {
+          "timeMs": 1.04,
+          "count": 70
+        },
+        "fulltext": {
+          "timeMs": 1.6,
+          "count": 70
+        },
+        "index": {
+          "timeMs": 0.94,
+          "count": 70
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 1,
+      "modes": {
+        "like": {
+          "timeMs": 1.38,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.07,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 1.02,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 2,
+      "modes": {
+        "like": {
+          "timeMs": 1.55,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.31,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.82,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 3,
+      "modes": {
+        "like": {
+          "timeMs": 1.04,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 0.64,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.91,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 4,
+      "modes": {
+        "like": {
+          "timeMs": 1.19,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.61,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 5,
+      "modes": {
+        "like": {
+          "timeMs": 1.24,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.2,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.91,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 6,
+      "modes": {
+        "like": {
+          "timeMs": 1.11,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 0.75,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.54,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 7,
+      "modes": {
+        "like": {
+          "timeMs": 1.71,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.27,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.82,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 8,
+      "modes": {
+        "like": {
+          "timeMs": 1.11,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.42,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.91,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 9,
+      "modes": {
+        "like": {
+          "timeMs": 1.05,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 1.23,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.95,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchscheduling",
+      "repetition": 10,
+      "modes": {
+        "like": {
+          "timeMs": 1.26,
+          "count": 40
+        },
+        "fulltext": {
+          "timeMs": 0.77,
+          "count": 40
+        },
+        "index": {
+          "timeMs": 0.65,
+          "count": 40
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 1,
+      "modes": {
+        "like": {
+          "timeMs": 1.69,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 1.2,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.82,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 2,
+      "modes": {
+        "like": {
+          "timeMs": 1.22,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 0.65,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.88,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 3,
+      "modes": {
+        "like": {
+          "timeMs": 1.41,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 0.67,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.96,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 4,
+      "modes": {
+        "like": {
+          "timeMs": 1.61,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 1.58,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.79,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 5,
+      "modes": {
+        "like": {
+          "timeMs": 2.39,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 0.93,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.52,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 6,
+      "modes": {
+        "like": {
+          "timeMs": 1.19,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 0.67,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 1.3,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 7,
+      "modes": {
+        "like": {
+          "timeMs": 1.83,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 1.01,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.83,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 8,
+      "modes": {
+        "like": {
+          "timeMs": 1.65,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 1.08,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.83,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 9,
+      "modes": {
+        "like": {
+          "timeMs": 2.23,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 1,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 0.68,
+          "count": 12
+        }
+      }
+    },
+    {
+      "query": "benchpreemptive",
+      "repetition": 10,
+      "modes": {
+        "like": {
+          "timeMs": 1.45,
+          "count": 12
+        },
+        "fulltext": {
+          "timeMs": 0.87,
+          "count": 12
+        },
+        "index": {
+          "timeMs": 1.59,
+          "count": 12
+        }
+      }
+    }
+  ]
+}

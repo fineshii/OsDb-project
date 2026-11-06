@@ -1,0 +1,11 @@
+MySQL 8 application tables in configured schema
+files
+index_terms
+job_runs
+jobs
+knex_migrations
+knex_migrations_lock
+postings
+rooms
+scheduling_runs
+workers

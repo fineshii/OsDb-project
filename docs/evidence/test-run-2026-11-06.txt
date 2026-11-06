@@ -1,0 +1,111 @@
+(node:35704) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS master/tests/api.test.js
+PASS master/tests/communication.test.js
+  ● Console
+
+    console.log
+      [Socket] Client connected: 7fxxOfFm83CxSprxAAAA
+
+      at Namespace.log (master/src/sockets/handlers.js:22:13)
+
+    console.log
+      [Socket] Room created: JD3BWN with algorithm FCFS
+
+      at Socket.log (master/src/sockets/handlers.js:29:17)
+
+    console.log
+      [Socket] Client connected: yh4hFi5ikGnFuMmpAAAB
+
+      at Namespace.log (master/src/sockets/handlers.js:22:13)
+
+    console.log
+      [Socket] Client connected: S5lxLBKWFC1UR1fcAAAC
+
+      at Namespace.log (master/src/sockets/handlers.js:22:13)
+
+    console.log
+      [Socket] Worker Worker-Alpha (id=31) joined room JD3BWN
+
+      at Socket.log (master/src/sockets/handlers.js:149:17)
+
+    console.log
+      [Socket] Worker Worker-Beta (id=32) joined room JD3BWN
+
+      at Socket.log (master/src/sockets/handlers.js:149:17)
+
+    console.log
+      [Socket] Client disconnected: 7fxxOfFm83CxSprxAAAA
+
+      at Socket.log (master/src/sockets/handlers.js:308:15)
+
+    console.log
+      [Socket] Client disconnected: yh4hFi5ikGnFuMmpAAAB
+
+      at Socket.log (master/src/sockets/handlers.js:308:15)
+
+    console.log
+      [Socket] Worker Worker-Alpha (id=1) disconnected from room JD3BWN
+
+      at Socket.log (master/src/sockets/handlers.js:314:17)
+
+    console.log
+      [Socket] Client disconnected: S5lxLBKWFC1UR1fcAAAC
+
+      at Socket.log (master/src/sockets/handlers.js:308:15)
+
+    console.log
+      [Socket] Worker Worker-Beta (id=2) disconnected from room JD3BWN
+
+      at Socket.log (master/src/sockets/handlers.js:314:17)
+
+    console.log
+      [Socket] Client connected: raVGBm5lDejKHpl4AAAD
+
+      at Namespace.log (master/src/sockets/handlers.js:22:13)
+
+    console.log
+      [Socket] Room created: 9MJLYM with algorithm FCFS
+
+      at Socket.log (master/src/sockets/handlers.js:29:17)
+
+    console.log
+      [Socket] Client connected: tuwaCDOrd-HjK7f0AAAE
+
+      at Namespace.log (master/src/sockets/handlers.js:22:13)
+
+    console.log
+      [Socket] Client disconnected: raVGBm5lDejKHpl4AAAD
+
+      at Socket.log (master/src/sockets/handlers.js:308:15)
+          at Map.forEach (<anonymous>)
+          at Array.map (<anonymous>)
+
+    console.log
+      [Socket] Client disconnected: tuwaCDOrd-HjK7f0AAAE
+
+      at Socket.log (master/src/sockets/handlers.js:308:15)
+          at Map.forEach (<anonymous>)
+          at Array.map (<anonymous>)
+
+PASS master/tests/scheduler.api.test.js
+PASS master/tests/schedulingRunService.test.js
+PASS master/tests/fileService.test.js
+PASS master/tests/search.test.js
+PASS master/tests/indexService.test.js
+PASS master/tests/jobService.test.js
+PASS worker/tests/threadPool.test.js
+PASS master/tests/scheduler.sjf.test.js
+PASS master/tests/transactionRetry.test.js
+PASS worker/tests/tasks.test.js
+PASS master/tests/metrics.test.js
+PASS master/tests/scheduler.fcfs.test.js
+PASS master/tests/dispatch.test.js
+PASS master/tests/roomManager.test.js
+
+Test Suites: 16 passed, 16 total
+Tests:       94 passed, 94 total
+Snapshots:   0 total
+Time:        9.434 s, estimated 12 s
+Ran all test suites matching /master\\tests\\|worker\\tests\\/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
