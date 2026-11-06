@@ -31,10 +31,8 @@
 ## Setup
 
 ```bash
-# 1. Obtain the project source
-# This local checkout has no Git remote configured. Use the clone URL
-# supplied by the project owner, or open the downloaded project folder.
-git clone <project-repository-url>
+# 1. Clone the project source
+git clone https://github.com/fineshii/OsDb-project.git
 cd OsDb-project
 
 # 2. Copy and configure environment variables
@@ -113,7 +111,7 @@ npx prettier --check .
 npm --prefix web run build
 ```
 
-The latest verification outputs and dashboard captures are linked from [`docs/report.md`](docs/report.md#9-screenshots-and-evidence). The local checkout used to prepare this guide has no Git remote, so the project owner must provide the clone URL before a new developer can run the clone command above.
+The latest verification outputs and dashboard captures are linked from [`docs/report.md`](docs/report.md#9-screenshots-and-evidence). The project is hosted in a private GitHub repository, so collaborators need repository access before cloning.
 
 ---
 
