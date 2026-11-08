@@ -371,42 +371,63 @@ code {
 .gantt-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   margin: 16px 0;
   background-color: #f8fafc;
   padding: 16px;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
+  overflow-x: auto;
 }
 
 .gantt-row {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 132px minmax(420px, 1fr);
   align-items: center;
   gap: 12px;
 }
 
 .gantt-worker-label {
-  font-weight: 600;
-  font-size: 0.85rem;
   color: #334155;
   text-overflow: ellipsis;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gantt-worker-label strong {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gantt-worker-label small {
+  color: var(--text-muted);
+  font-size: 0.7rem;
   white-space: nowrap;
 }
 
 .gantt-track {
   position: relative;
-  height: 32px;
+  height: 38px;
   background-color: #e2e8f0;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(25% - 1px),
+    rgba(100, 116, 139, 0.22) calc(25% - 1px),
+    rgba(100, 116, 139, 0.22) 25%
+  );
   border-radius: 4px;
   overflow: hidden;
 }
 
 .gantt-block {
   position: absolute;
-  top: 3px;
-  height: 26px;
+  top: 5px;
+  height: 28px;
   border-radius: 3px;
   color: #fff;
   font-size: 0.75rem;
@@ -443,11 +464,59 @@ code {
 }
 
 .gantt-time-axis {
-  display: flex;
-  justify-content: space-between;
   font-size: 0.75rem;
   color: var(--text-muted);
-  padding: 0 4px;
+  display: grid;
+  grid-template-columns: 132px minmax(420px, 1fr);
+  gap: 12px;
+  padding: 0;
+}
+
+.gantt-axis-spacer {
+  font-weight: 600;
+}
+
+.gantt-axis-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gantt-heading {
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.gantt-caption {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.gantt-insights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.gantt-insight {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+.gantt-insight span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.gantt-insight strong {
+  color: var(--text-main);
+  font-size: 1rem;
 }
 
 .gantt-legend {

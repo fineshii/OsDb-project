@@ -146,9 +146,12 @@ export class JobService {
     const runs = await this.knex('job_runs')
       .join('jobs', 'job_runs.job_id', 'jobs.id')
       .join('workers', 'job_runs.worker_id', 'workers.id')
+      .join('files', 'jobs.file_id', 'files.id')
       .select(
         'job_runs.id',
         'job_runs.job_id as jobId',
+        'files.name as fileName',
+        'jobs.type as jobType',
         'workers.name as workerName',
         'job_runs.started_at as start',
         'job_runs.ended_at as end',
