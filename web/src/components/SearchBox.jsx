@@ -126,6 +126,11 @@ export function SearchBox() {
                   <div className="result-header">
                     <span className="result-name">📄 {item.name}</span>
                     <span className="result-size">{(item.size_bytes / 1024).toFixed(1)} KB</span>
+                    {item.matchedIn?.length > 0 && (
+                      <span className="badge badge-info">
+                        Matched in: {item.matchedIn.join(' and ')}
+                      </span>
+                    )}
                     {item.tf && <span className="badge badge-info">TF: {item.tf}</span>}
                     {item.score && <span className="badge badge-info">Score: {item.score}</span>}
                   </div>

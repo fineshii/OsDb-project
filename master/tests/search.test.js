@@ -128,8 +128,8 @@ describe('SearchService & Helpers', () => {
 
       expect(mockKnex).toHaveBeenCalledWith('files');
       expect(mockQueryBuilder.whereRaw).toHaveBeenCalledWith(
-        'MATCH(content) AGAINST (? IN NATURAL LANGUAGE MODE)',
-        ['indexing']
+        '(MATCH(content) AGAINST (? IN NATURAL LANGUAGE MODE) OR name LIKE ?)',
+        ['indexing', '%indexing%']
       );
       expect(result.mode).toBe(SEARCH_MODES.FULLTEXT);
       expect(result.count).toBe(1);

@@ -7,14 +7,14 @@
 
 ## Features
 
-| Area               | What it does                                                                      |
-| ------------------ | --------------------------------------------------------------------------------- |
-| **Master/Worker**  | Master (Express + Socket.IO) manages rooms; workers run tasks in `worker_threads` |
-| **File upload**    | Upload text files via REST; SHA-256 deduplication; binary files rejected          |
-| **Keyword search** | Three strategies compared: LIKE, MySQL FULLTEXT, custom Inverted Index            |
-| **OS Scheduling**  | Pure FCFS and SJF simulations with Gantt timeline + metrics                       |
-| **Dashboard**      | React 18 + Vite — rooms, workers, job queue, Gantt chart, search box              |
-| **Testing**        | 94 Jest tests passed; lint, formatting, and web build passed on 2026-11-06        |
+| Area               | What it does                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| **Master/Worker**  | Master (Express + Socket.IO) manages rooms; workers run tasks in `worker_threads`     |
+| **File upload**    | Upload text files via REST; SHA-256 deduplication; binary files rejected              |
+| **Keyword search** | Search file names and contents with LIKE, MySQL FULLTEXT, and a custom inverted index |
+| **OS Scheduling**  | Pure FCFS and SJF simulations with Gantt timeline + metrics                           |
+| **Dashboard**      | React 18 + Vite — rooms, workers, job queue, Gantt chart, search box                  |
+| **Testing**        | 94 Jest tests passed; lint, formatting, and web build passed on 2026-11-06            |
 
 ---
 
