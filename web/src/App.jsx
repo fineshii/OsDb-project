@@ -17,6 +17,7 @@ const navigation = [
   { id: 'files', label: 'Files', icon: 'files' },
   { id: 'jobs', label: 'Processing', icon: 'processing' },
   { id: 'gantt', label: 'Activity', icon: 'activity' },
+  { id: 'metrics', label: 'Scheduling', icon: 'overview' },
   { id: 'search', label: 'Search', icon: 'search' },
 ];
 
@@ -108,6 +109,7 @@ export default function App() {
     { label: 'Active jobs', value: queuedJobs + runningJobs, icon: 'processing' },
     { label: 'Jobs completed', value: completedJobs, icon: 'activity' },
   ];
+  const activeView = navigation.find((item) => item.id === activeNav) || navigation[0];
 
   // Refresh files stored in DB
   const refreshFiles = useCallback(async () => {
@@ -184,7 +186,12 @@ export default function App() {
   return (
     <div className="app-container workspace-layout">
       <aside className="sidebar">
-        <a className="brand" href="#overview" onClick={() => setActiveNav('overview')}>
+        <button
+          className="brand"
+          type="button"
+          onClick={() => setActiveNav('overview')}
+          aria-label="Go to overview"
+        >
           <span className="brand-mark">
             <i></i>
             <i></i>
@@ -194,20 +201,21 @@ export default function App() {
             <strong>CloudSim</strong>
             <small>OS + DBMS project</small>
           </span>
-        </a>
+        </button>
 
         <nav className="sidebar-nav" aria-label="Main navigation">
           <span className="nav-label">WORKSPACE</span>
           {navigation.map((item) => (
-            <a
+            <button
               key={item.id}
-              href={`#${item.id}`}
               className={`nav-link ${activeNav === item.id ? 'active' : ''}`}
               onClick={() => setActiveNav(item.id)}
+              type="button"
+              aria-current={activeNav === item.id ? 'page' : undefined}
             >
               <Icon name={item.icon} />
               <span>{item.label}</span>
-            </a>
+            </button>
           ))}
         </nav>
       </aside>
@@ -215,9 +223,11 @@ export default function App() {
       <main className="main-content" id="overview">
         <header className="app-header">
           <div className="header-left">
-            <p className="eyebrow">PROJECT OVERVIEW</p>
-            <h1>Your workspace</h1>
-            <p className="subtitle">Manage files, workers, and processing in one place.</p>
+            <p className="eyebrow">{activeNav === 'overview' ? 'PROJECT OVERVIEW' : 'WORKSPACE'}</p>
+            <h1>{activeNav === 'overview' ? 'Your workspace' : activeView.label}</h1>
+            {activeNav === 'overview' && (
+              <p className="subtitle">Manage files, workers, and processing in one place.</p>
+            )}
           </div>
           <div className="header-right">
             {roomCode && (
@@ -234,52 +244,94 @@ export default function App() {
 
         {globalError && <div className="alert alert-danger global-alert">{globalError}</div>}
 
-        <section className="summary-grid" aria-label="Workspace summary">
-          {summaryStats.map((stat) => (
-            <div className="summary-card" key={stat.label}>
-              <StatIcon name={stat.icon} />
-              <div>
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
+        {activeNav === 'overview' && (
+          <section className="summary-grid" aria-label="Workspace summary">
+            {summaryStats.map((stat) => (
+              <div className="summary-card" key={stat.label}>
+                <StatIcon name={stat.icon} />
+                <div>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
               </div>
+            ))}
+          </section>
+        )}
+
+        {activeNav === 'overview' ? (
+          <div className="dashboard-grid">
+            <div className="dashboard-col left-col">
+              <RoomPanel
+                roomCode={roomCode}
+                algorithm={algorithm}
+                socket={socket}
+                onRoomChange={handleRoomChange}
+              />
+              <WorkerList workers={workers} />
+              <FileUpload
+                files={files}
+                onFilesUploaded={refreshFiles}
+                selectedFileIds={selectedFileIds}
+                onSelectionChange={setSelectedFileIds}
+              />
             </div>
-          ))}
-        </section>
 
-        <div className="dashboard-grid">
-          <div className="dashboard-col left-col">
-            <RoomPanel
-              roomCode={roomCode}
-              algorithm={algorithm}
-              socket={socket}
-              onRoomChange={handleRoomChange}
-            />
-            <WorkerList workers={workers} />
-            <FileUpload
-              files={files}
-              onFilesUploaded={refreshFiles}
-              selectedFileIds={selectedFileIds}
-              onSelectionChange={setSelectedFileIds}
-            />
+            <div className="dashboard-col right-col">
+              <JobQueue
+                roomCode={roomCode}
+                queue={queue}
+                selectedFileIds={selectedFileIds}
+                onJobsCreated={refreshJobs}
+              />
+              <GanttChart ganttRuns={ganttRuns} workers={workers} />
+              <MetricsTable
+                algorithm={algorithm}
+                roomCode={roomCode}
+                queue={queue}
+                ganttRuns={ganttRuns}
+              />
+              <SearchBox />
+            </div>
           </div>
-
-          <div className="dashboard-col right-col">
-            <JobQueue
-              roomCode={roomCode}
-              queue={queue}
-              selectedFileIds={selectedFileIds}
-              onJobsCreated={refreshJobs}
-            />
-            <GanttChart ganttRuns={ganttRuns} workers={workers} />
-            <MetricsTable
-              algorithm={algorithm}
-              roomCode={roomCode}
-              queue={queue}
-              ganttRuns={ganttRuns}
-            />
-            <SearchBox />
-          </div>
-        </div>
+        ) : (
+          <section className="single-view" aria-label={`${activeView.label} view`}>
+            {activeNav === 'room-panel' && (
+              <RoomPanel
+                roomCode={roomCode}
+                algorithm={algorithm}
+                socket={socket}
+                onRoomChange={handleRoomChange}
+              />
+            )}
+            {activeNav === 'workers' && <WorkerList workers={workers} />}
+            {activeNav === 'files' && (
+              <FileUpload
+                files={files}
+                onFilesUploaded={refreshFiles}
+                selectedFileIds={selectedFileIds}
+                onSelectionChange={setSelectedFileIds}
+              />
+            )}
+            {activeNav === 'jobs' && (
+              <JobQueue
+                roomCode={roomCode}
+                queue={queue}
+                selectedFileIds={selectedFileIds}
+                onJobsCreated={refreshJobs}
+              />
+            )}
+            {activeNav === 'gantt' && <GanttChart ganttRuns={ganttRuns} workers={workers} />}
+            {activeNav === 'metrics' && (
+              <MetricsTable
+                algorithm={algorithm}
+                roomCode={roomCode}
+                queue={queue}
+                ganttRuns={ganttRuns}
+              />
+            )}
+            {activeNav === 'search' && <SearchBox />}
+          </section>
+        )}
       </main>
     </div>
   );

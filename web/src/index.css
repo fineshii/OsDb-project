@@ -572,6 +572,11 @@ body {
   padding: 0 8px 25px;
   color: #111a2e;
   text-decoration: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .brand-mark {
@@ -653,6 +658,11 @@ body {
   font-size: 0.88rem;
   font-weight: 550;
   text-decoration: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   border-radius: 9px;
   transition:
     background 0.15s ease,
@@ -837,6 +847,15 @@ body {
 .dashboard-grid {
   grid-template-columns: minmax(290px, 0.82fr) minmax(0, 1.55fr);
   gap: 18px;
+}
+
+.single-view {
+  width: 100%;
+  min-width: 0;
+}
+
+.single-view > .card {
+  width: 100%;
 }
 
 .dashboard-col {
