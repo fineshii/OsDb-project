@@ -16,11 +16,9 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
 
   if (validRuns.length === 0) {
     return (
-      <div className="card gantt-chart">
-        <h2>5. Real-Time Execution Gantt Chart</h2>
-        <p className="empty-text">
-          No job execution history recorded yet. Dispatched jobs will render here.
-        </p>
+      <div className="card gantt-chart" id="gantt">
+        <h2>Execution timeline</h2>
+        <p className="empty-text">Worker activity will appear here.</p>
       </div>
     );
   }
@@ -70,10 +68,13 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
   };
 
   return (
-    <div className="card gantt-chart">
+    <div className="card gantt-chart" id="gantt">
       <div className="section-header gantt-heading">
         <div>
-          <h2>5. Real-Time Execution Gantt Chart</h2>
+          <div className="section-title">
+            <span className="section-kicker">ACTIVITY</span>
+            <h2>Execution timeline</h2>
+          </div>
           <p className="gantt-caption">
             Each bar is one actual worker run. The time axis starts at the first run; very short
             runs use a minimum marker width, while tooltips show measured durations.

@@ -34,23 +34,26 @@ export function SearchBox() {
   };
 
   return (
-    <div className="card search-box">
-      <h2>7. DBMS Keyword Search & Benchmarking</h2>
+    <div className="card search-box" id="search">
+      <div className="section-title">
+        <span className="section-kicker">SEARCH</span>
+        <h2>Find a file</h2>
+      </div>
 
       <form onSubmit={handleSearch} className="search-form">
         <div className="search-input-group">
           <input
             type="text"
-            placeholder="Search keyword (e.g. scheduling, algorithm, simulator)..."
+            placeholder="Search file names or contents"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
 
           <select value={mode} onChange={(e) => setMode(e.target.value)}>
-            <option value="like">Mode: SQL LIKE (Baseline Scan)</option>
-            <option value="fulltext">Mode: MySQL FULLTEXT (MATCH AGAINST)</option>
-            <option value="index">Mode: Inverted Index (postings join)</option>
-            <option value="benchmark">Mode: 3-Way Benchmark Comparison</option>
+            <option value="like">SQL LIKE</option>
+            <option value="fulltext">MySQL FULLTEXT</option>
+            <option value="index">Inverted index</option>
+            <option value="benchmark">Compare all 3</option>
           </select>
 
           <button type="submit" className="btn btn-primary" disabled={loading || !query.trim()}>
@@ -64,7 +67,7 @@ export function SearchBox() {
       {/* Benchmark 3-Way Results */}
       {benchmarkResponse && (
         <div className="benchmark-results">
-          <h3>3-Way DBMS Search Benchmark for "{benchmarkResponse.query}"</h3>
+          <h3>Search comparison for “{benchmarkResponse.query}”</h3>
           <div className="benchmark-cards">
             <div
               className={`bench-card ${
@@ -74,7 +77,6 @@ export function SearchBox() {
               <h4>SQL LIKE</h4>
               <div className="bench-time">{benchmarkResponse.modes.like.timeMs} ms</div>
               <div className="bench-count">{benchmarkResponse.modes.like.count} match(es)</div>
-              <small>Full Table Scan</small>
             </div>
 
             <div
@@ -85,7 +87,6 @@ export function SearchBox() {
               <h4>MySQL FULLTEXT</h4>
               <div className="bench-time">{benchmarkResponse.modes.fulltext.timeMs} ms</div>
               <div className="bench-count">{benchmarkResponse.modes.fulltext.count} match(es)</div>
-              <small>MATCH ... AGAINST</small>
             </div>
 
             <div
@@ -96,13 +97,12 @@ export function SearchBox() {
               <h4>Inverted Index</h4>
               <div className="bench-time">{benchmarkResponse.modes.index.timeMs} ms</div>
               <div className="bench-count">{benchmarkResponse.modes.index.count} match(es)</div>
-              <small>postings JOIN index_terms</small>
             </div>
           </div>
 
           <div className="alert alert-success benchmark-summary">
-            Fastest Strategy: <strong>{benchmarkResponse.comparison.fastest.toUpperCase()}</strong>{' '}
-            (<strong>{benchmarkResponse.comparison.speedupVsLike}x</strong> speedup vs baseline SQL
+            Fastest: <strong>{benchmarkResponse.comparison.fastest.toUpperCase()}</strong> (
+            <strong>{benchmarkResponse.comparison.speedupVsLike}x</strong> speedup vs baseline SQL
             LIKE).
           </div>
         </div>
@@ -112,13 +112,12 @@ export function SearchBox() {
       {searchResponse && (
         <div className="search-results-section">
           <div className="search-meta">
-            Found <strong>{searchResponse.count}</strong> match(es) in{' '}
-            <span className="timing-pill">{searchResponse.timeMs} ms</span> using mode{' '}
-            <code>{searchResponse.mode}</code>.
+            <strong>{searchResponse.count}</strong> results
+            <span className="timing-pill">{searchResponse.timeMs} ms</span>
           </div>
 
           {searchResponse.results.length === 0 ? (
-            <p className="empty-text">No matches found for "{searchResponse.query}".</p>
+            <p className="empty-text">No results for “{searchResponse.query}”.</p>
           ) : (
             <div className="results-list">
               {searchResponse.results.map((item) => (

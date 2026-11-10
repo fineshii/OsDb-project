@@ -51,15 +51,18 @@ export function MetricsTable({ algorithm, roomCode, queue, ganttRuns }) {
   };
 
   return (
-    <div className="card metrics-table">
+    <div className="card metrics-table" id="metrics">
       <div className="section-header">
-        <h2>6. OS Scheduling Metrics & Comparison</h2>
+        <div className="section-title">
+          <span className="section-kicker">SCHEDULING</span>
+          <h2>FCFS vs SJF</h2>
+        </div>
         <button
           className="btn btn-secondary"
           onClick={runComparisonDemo}
           disabled={simulating || !roomCode}
         >
-          {simulating ? 'Running...' : 'Save FCFS vs SJF Comparison'}
+          {simulating ? 'Comparing…' : 'Run comparison'}
         </button>
       </div>
 
@@ -82,15 +85,14 @@ export function MetricsTable({ algorithm, roomCode, queue, ganttRuns }) {
 
       {roomCode && (
         <div className="comparison-table-wrapper">
-          <h3>Saved Room Comparisons</h3>
+          <h3>Latest comparison</h3>
           <table className="table">
             <thead>
               <tr>
                 <th>Algorithm</th>
-                <th>Average Waiting Time</th>
-                <th>Average Turnaround Time</th>
+                <th>Avg. wait</th>
+                <th>Avg. turnaround</th>
                 <th>Jobs</th>
-                <th>Saved</th>
               </tr>
             </thead>
             <tbody>
@@ -105,9 +107,6 @@ export function MetricsTable({ algorithm, roomCode, queue, ganttRuns }) {
                   <strong>{latestRuns.FCFS?.avgTurnaround ?? '—'}</strong>
                 </td>
                 <td>{latestRuns.FCFS?.jobCount ?? '—'}</td>
-                <td>
-                  {latestRuns.FCFS ? new Date(latestRuns.FCFS.createdAt).toLocaleString() : '—'}
-                </td>
               </tr>
               <tr className={algorithm === 'SJF' ? 'row-highlight' : ''}>
                 <td>
@@ -120,14 +119,11 @@ export function MetricsTable({ algorithm, roomCode, queue, ganttRuns }) {
                   <strong>{latestRuns.SJF?.avgTurnaround ?? '—'}</strong>
                 </td>
                 <td>{latestRuns.SJF?.jobCount ?? '—'}</td>
-                <td>
-                  {latestRuns.SJF ? new Date(latestRuns.SJF.createdAt).toLocaleString() : '—'}
-                </td>
               </tr>
             </tbody>
           </table>
           {!latestRuns.FCFS && !latestRuns.SJF && (
-            <p className="hint-text">No simulation results saved for this room yet.</p>
+            <p className="hint-text">Run a comparison to see scheduling metrics.</p>
           )}
         </div>
       )}

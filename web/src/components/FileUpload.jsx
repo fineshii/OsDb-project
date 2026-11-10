@@ -64,8 +64,13 @@ export function FileUpload({ files, onFilesUploaded, selectedFileIds, onSelectio
   };
 
   return (
-    <div className="card file-upload">
-      <h2>3. File Upload & Storage</h2>
+    <div className="card file-upload" id="files">
+      <div className="section-title">
+        <span className="section-kicker">LIBRARY</span>
+        <h2>
+          Files <span className="title-count">{files.length}</span>
+        </h2>
+      </div>
 
       <div
         className={`drop-zone ${isDragging ? 'drag-over' : ''}`}
@@ -81,12 +86,8 @@ export function FileUpload({ files, onFilesUploaded, selectedFileIds, onSelectio
           style={{ display: 'none' }}
           onChange={(e) => handleUpload(e.target.files)}
         />
-        <p>
-          {uploading
-            ? 'Uploading and computing SHA-256 hashes...'
-            : 'Drag & Drop files here, or click to browse'}
-        </p>
-        <span className="hint-text">Text files only (size limit: 10MB per file)</span>
+        <p>{uploading ? 'Uploading…' : 'Drop files here or browse'}</p>
+        <span className="hint-text">Text files · up to 10 MB each</span>
       </div>
 
       {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
@@ -94,26 +95,24 @@ export function FileUpload({ files, onFilesUploaded, selectedFileIds, onSelectio
 
       <div className="file-list-section">
         <div className="section-header">
-          <h3>Stored Files in MySQL ({files.length})</h3>
+          <h3>Uploaded files</h3>
           {files.length > 0 && (
-            <button className="btn btn-sm" onClick={selectAll}>
-              {selectedFileIds.length === files.length ? 'Deselect All' : 'Select All'}
+            <button className="btn btn-sm btn-ghost" onClick={selectAll}>
+              {selectedFileIds.length === files.length ? 'Clear selection' : 'Select all'}
             </button>
           )}
         </div>
 
         {files.length === 0 ? (
-          <p className="empty-text">No files stored in MySQL database yet.</p>
+          <p className="empty-text">No files uploaded yet.</p>
         ) : (
           <div className="table-wrapper">
             <table className="table">
               <thead>
                 <tr>
                   <th width="40">Select</th>
-                  <th>ID</th>
-                  <th>File Name</th>
+                  <th>File name</th>
                   <th>Size</th>
-                  <th>Uploaded</th>
                 </tr>
               </thead>
               <tbody>
@@ -126,12 +125,10 @@ export function FileUpload({ files, onFilesUploaded, selectedFileIds, onSelectio
                         onChange={() => toggleSelect(f.id)}
                       />
                     </td>
-                    <td>{f.id}</td>
                     <td>
                       <strong>{f.name}</strong>
                     </td>
                     <td>{(f.size_bytes / 1024).toFixed(1)} KB</td>
-                    <td>{new Date(f.uploaded_at).toLocaleTimeString()}</td>
                   </tr>
                 ))}
               </tbody>

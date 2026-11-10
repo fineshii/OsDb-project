@@ -9,11 +9,11 @@ export function JobQueue({ roomCode, queue, selectedFileIds, onJobsCreated }) {
 
   const handleCreateJobs = async () => {
     if (!roomCode) {
-      setErrorMsg('Please select or create an active room first.');
+      setErrorMsg('Create or join a room first.');
       return;
     }
     if (selectedFileIds.length === 0) {
-      setErrorMsg('Please select at least one file to convert into a job.');
+      setErrorMsg('Select at least one file.');
       return;
     }
 
@@ -49,20 +49,27 @@ export function JobQueue({ roomCode, queue, selectedFileIds, onJobsCreated }) {
   };
 
   return (
-    <div className="card job-queue">
+    <div className="card job-queue" id="jobs">
       <div className="section-header">
-        <h2>4. OS Job Queue ({queue.length})</h2>
+        <div className="section-title">
+          <span className="section-kicker">PROCESSING</span>
+          <h2>
+            Job queue <span className="title-count">{queue.length}</span>
+          </h2>
+        </div>
         <div className="job-actions">
           <select value={jobType} onChange={(e) => setJobType(e.target.value)}>
-            <option value={JOB_TYPES.INDEX}>Job Type: Inverted Index</option>
-            <option value={JOB_TYPES.PREPROCESS}>Job Type: Preprocess</option>
+            <option value={JOB_TYPES.INDEX}>Build search index</option>
+            <option value={JOB_TYPES.PREPROCESS}>Preprocess file</option>
           </select>
           <button
             className="btn btn-primary"
             onClick={handleCreateJobs}
             disabled={creating || selectedFileIds.length === 0}
           >
-            {creating ? 'Dispatching...' : `Queue ${selectedFileIds.length} Job(s)`}
+            {creating
+              ? 'Queueing…'
+              : `Queue ${selectedFileIds.length || ''} job${selectedFileIds.length === 1 ? '' : 's'}`}
           </button>
         </div>
       </div>
@@ -70,42 +77,31 @@ export function JobQueue({ roomCode, queue, selectedFileIds, onJobsCreated }) {
       {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
 
       {queue.length === 0 ? (
-        <p className="empty-text">
-          No jobs in queue. Select uploaded files above and click "Queue Jobs" to trigger
-          scheduling.
-        </p>
+        <p className="empty-text">No jobs yet. Select files and queue work to begin.</p>
       ) : (
         <div className="table-wrapper">
           <table className="table">
             <thead>
               <tr>
-                <th>Job ID</th>
-                <th>File Name</th>
+                <th>File</th>
                 <th>Type</th>
-                <th>Burst Estimate (KB)</th>
                 <th>Status</th>
                 <th>Worker</th>
-                <th>Attempts</th>
               </tr>
             </thead>
             <tbody>
               {queue.map((j) => (
                 <tr key={j.id}>
                   <td>
-                    <strong>#{j.id}</strong>
+                    <strong>{j.name || `File ${j.fileId}`}</strong>
                   </td>
-                  <td>{j.name || `File ${j.fileId}`}</td>
-                  <td>
-                    <code>{j.type}</code>
-                  </td>
-                  <td>{j.burst} unit(s)</td>
+                  <td>{j.type === JOB_TYPES.INDEX ? 'Index' : 'Preprocess'}</td>
                   <td>
                     <span className={`badge ${getStatusBadge(j.status)}`}>
                       {j.status.toUpperCase()}
                     </span>
                   </td>
                   <td>{j.workerName || '—'}</td>
-                  <td>{j.attempts || 0} / 3</td>
                 </tr>
               ))}
             </tbody>

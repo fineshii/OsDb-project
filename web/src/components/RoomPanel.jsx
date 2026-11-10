@@ -46,42 +46,45 @@ export function RoomPanel({ roomCode, algorithm, socket, onRoomChange }) {
   };
 
   return (
-    <div className="card room-panel">
-      <h2>1. Room & Scheduling Algorithm</h2>
+    <div className="card room-panel" id="room-panel">
+      <div className="section-title">
+        <span className="section-kicker">SETUP</span>
+        <h2>Processing room</h2>
+      </div>
 
       <div className="room-controls">
         <div className="form-group">
-          <label>Algorithm:</label>
+          <label>Scheduling algorithm</label>
           <select
             value={selectedAlgo}
             onChange={(e) => setSelectedAlgo(e.target.value)}
             disabled={loading}
           >
-            <option value={ALGORITHMS.FCFS}>FCFS (First-Come, First-Served)</option>
-            <option value={ALGORITHMS.SJF}>SJF (Shortest Job First)</option>
+            <option value={ALGORITHMS.FCFS}>FCFS</option>
+            <option value={ALGORITHMS.SJF}>SJF</option>
           </select>
         </div>
 
         <button className="btn btn-primary" onClick={handleCreateRoom} disabled={loading}>
-          {loading ? 'Creating...' : 'Create New Room'}
+          {loading ? 'Creating...' : 'Create room'}
         </button>
 
         {roomCode && (
           <button className="btn btn-secondary" onClick={handleSetAlgorithm} disabled={loading}>
-            Apply to Active Room
+            Apply algorithm
           </button>
         )}
 
         <form onSubmit={handleJoinRoom} className="join-room-form">
           <input
             type="text"
-            placeholder="Room Code (e.g. ABC123)"
+            placeholder="Enter room code"
             maxLength={6}
             value={inputCode}
             onChange={(e) => setInputCode(e.target.value)}
           />
           <button type="submit" className="btn btn-secondary">
-            Join Room
+            Join room
           </button>
         </form>
       </div>
@@ -91,14 +94,9 @@ export function RoomPanel({ roomCode, algorithm, socket, onRoomChange }) {
       {roomCode && (
         <div className="room-info">
           <span className="badge badge-success">
-            Active Room: <strong>{roomCode}</strong>
+            Room <strong>{roomCode}</strong>
           </span>
-          <span className="badge badge-info">
-            Algorithm: <strong>{algorithm}</strong>
-          </span>
-          <span className="copy-hint">
-            Workers can join using: <code>--room {roomCode}</code>
-          </span>
+          <span className="badge badge-info">{algorithm}</span>
         </div>
       )}
     </div>

@@ -16,15 +16,16 @@ export function WorkerList({ workers }) {
   };
 
   return (
-    <div className="card worker-list">
-      <h2>2. Distributed Workers ({workers.length})</h2>
+    <div className="card worker-list" id="workers">
+      <div className="section-title">
+        <span className="section-kicker">COMPUTE</span>
+        <h2>
+          Workers <span className="title-count">{workers.length}</span>
+        </h2>
+      </div>
 
       {workers.length === 0 ? (
-        <p className="empty-text">
-          No workers connected to this room yet. Start a worker using:
-          <br />
-          <code>node worker/src/index.js --room &lt;ROOM_CODE&gt; --name W1</code>
-        </p>
+        <p className="empty-text">No workers connected yet.</p>
       ) : (
         <table className="table">
           <thead>
