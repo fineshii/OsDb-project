@@ -80,10 +80,10 @@ export class ThreadPool {
       return;
     }
 
-    const { id, taskType, content, workerName } = this.taskQueue.shift();
+    const { id, taskType, content, workerName, workloadRounds } = this.taskQueue.shift();
     const worker = this.idleWorkers.shift();
 
-    worker.postMessage({ id, taskType, content, workerName });
+    worker.postMessage({ id, taskType, content, workerName, workloadRounds });
   }
 
   /**
@@ -92,13 +92,14 @@ export class ThreadPool {
    * @param {string} params.taskType
    * @param {string} params.content
    * @param {string} params.workerName
+   * @param {number} [params.workloadRounds]
    * @returns {Promise<any>}
    */
-  executeTask({ taskType, content, workerName }) {
+  executeTask({ taskType, content, workerName, workloadRounds = 0 }) {
     return new Promise((resolve, reject) => {
       const id = this.nextTaskId++;
       this.pendingTasks.set(id, { resolve, reject });
-      this.taskQueue.push({ id, taskType, content, workerName });
+      this.taskQueue.push({ id, taskType, content, workerName, workloadRounds });
 
       this.dispatchNext();
     });

@@ -60,6 +60,7 @@ export class JobService {
         room_id: room.id,
         file_id: file.id,
         type,
+        algorithm: room.algorithm,
         status: JOB_STATUS.QUEUED,
         arrival_time: now,
         burst_estimate: burstEstimate,
@@ -126,6 +127,7 @@ export class JobService {
       name: j.fileName,
       status: j.status,
       burst: j.burst,
+      arrivalTime: Number(j.arrivalTime),
       workerName: j.workerName || null,
       type: j.type,
       attempts: j.attempts,
@@ -152,6 +154,7 @@ export class JobService {
         'job_runs.job_id as jobId',
         'files.name as fileName',
         'jobs.type as jobType',
+        'jobs.arrival_time as batchTime',
         'workers.name as workerName',
         'job_runs.started_at as start',
         'job_runs.ended_at as end',
@@ -161,6 +164,64 @@ export class JobService {
       .orderBy('job_runs.started_at', 'asc');
 
     return runs;
+  }
+
+  async listBatchSummaries(roomCode) {
+    const room = await this.knex('rooms').where({ code: roomCode }).first();
+    if (!room) return [];
+    const batches = await this.knex('jobs')
+      .leftJoin('job_runs', 'jobs.id', 'job_runs.job_id')
+      .leftJoin('workers', 'job_runs.worker_id', 'workers.id')
+      .where('jobs.room_id', room.id)
+      .groupBy('jobs.arrival_time', 'jobs.algorithm')
+      .select(
+        'jobs.arrival_time as batchTime',
+        'jobs.algorithm',
+        this.knex.raw('COUNT(DISTINCT jobs.id) as jobCount'),
+        this.knex.raw('COUNT(DISTINCT workers.id) as workerCount'),
+        this.knex.raw('MIN(job_runs.started_at) as startedAt'),
+        this.knex.raw('MAX(job_runs.ended_at) as finishedAt'),
+        this.knex.raw("SUM(CASE WHEN jobs.status IN ('queued','running') THEN 1 ELSE 0 END) as pendingJobs"),
+        this.knex.raw("SUM(CASE WHEN jobs.status = 'done' THEN 1 ELSE 0 END) as completedJobs")
+      )
+      .orderBy('jobs.arrival_time', 'desc');
+    const summaries = [];
+    for (const batch of batches) {
+      const order = await this.knex('jobs')
+        .leftJoin('job_runs', 'jobs.id', 'job_runs.job_id')
+        .join('files', 'jobs.file_id', 'files.id')
+        .where({ 'jobs.room_id': room.id, 'jobs.arrival_time': batch.batchTime, 'jobs.algorithm': batch.algorithm })
+        .groupBy('jobs.id', 'files.name')
+        .select(
+          'jobs.id as jobId',
+          'files.name as fileName',
+          this.knex.raw('MIN(job_runs.id) as dispatchSequence'),
+          this.knex.raw('MIN(job_runs.started_at) as startedAt')
+        )
+        .orderByRaw('MIN(job_runs.id) IS NULL ASC')
+        .orderBy('dispatchSequence', 'asc')
+        .orderBy('jobs.id', 'asc');
+      const waitTimes = order
+        .filter((job) => job.startedAt != null)
+        .map((job) => Math.max(0, Number(job.startedAt) - Number(batch.batchTime)));
+      summaries.push({
+        ...batch,
+        batchTime: Number(batch.batchTime),
+        jobCount: Number(batch.jobCount),
+        workerCount: Number(batch.workerCount),
+        pendingJobs: Number(batch.pendingJobs),
+        completedJobs: Number(batch.completedJobs),
+        elapsedMs: batch.startedAt && batch.finishedAt
+          ? Number(batch.finishedAt) - Number(batch.startedAt)
+          : null,
+        averageWaitMs: waitTimes.length
+          ? Math.round(waitTimes.reduce((total, wait) => total + wait, 0) / waitTimes.length)
+          : null,
+        longestWaitMs: waitTimes.length ? Math.max(...waitTimes) : null,
+        dispatchOrder: order,
+      });
+    }
+    return summaries;
   }
 }
 

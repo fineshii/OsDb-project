@@ -10,11 +10,12 @@ export class WorkerClient {
    * @param {string} options.workerName
    * @param {number} [options.threads=1]
    */
-  constructor({ masterUrl, roomCode, workerName, threads = 1 }) {
+  constructor({ masterUrl, roomCode, workerName, threads = 1, workloadRounds = 0 }) {
     this.masterUrl = masterUrl;
     this.roomCode = roomCode;
     this.workerName = workerName;
     this.threads = threads;
+    this.workloadRounds = workloadRounds;
     this.socket = null;
     this.workerId = null;
     this.threadPool = new ThreadPool(this.threads);
@@ -82,6 +83,7 @@ export class WorkerClient {
           taskType: type,
           content,
           workerName: this.workerName,
+          workloadRounds: this.workloadRounds,
         });
 
         // Notify master of completion

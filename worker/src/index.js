@@ -30,6 +30,10 @@ const options = {
     short: 't',
     default: String(Math.max(1, (os.cpus()?.length || 2) - 1)),
   },
+  workload: {
+    type: 'string',
+    default: '0',
+  },
 };
 
 let values;
@@ -56,6 +60,7 @@ const client = new WorkerClient({
   roomCode: values.room.toUpperCase(),
   workerName: values.name,
   threads: parseInt(values.threads, 10) || 1,
+  workloadRounds: Math.max(0, Math.min(5000000, parseInt(values.workload, 10) || 0)),
 });
 
 client.connect();

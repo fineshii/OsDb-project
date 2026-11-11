@@ -80,8 +80,10 @@ npm --prefix master start
 **Terminal 2 — Worker node** (after creating a room in the dashboard)
 
 ```bash
-node worker/src/index.js --room <ROOM_CODE> --name W1 --threads 4
+node worker/src/index.js --room <ROOM_CODE> --name W1 --threads 1 --workload 100000
 ```
+
+`--workload` adds a repeatable SHA-256 CPU workload to each job (default `0`, disabled). Use the same workload value for every worker when comparing worker counts. For example, start one worker with `--workload 100000`, queue a batch, then repeat the same batch with four workers using the same setting. Worker output includes the extra workload duration. This is a controlled demonstration load; it is not part of the uploaded file's normal processing.
 
 **Terminal 3 — Web dashboard**
 

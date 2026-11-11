@@ -104,6 +104,18 @@ export const jobController = {
     }
   },
 
+  async listBatches(req, res) {
+    const roomCode = req.params.code?.toUpperCase();
+    if (!roomCode || roomCode.length !== 6) {
+      return res.status(400).json({ error: 'Invalid room code (must be 6 characters)' });
+    }
+    try {
+      return res.json(await jobService.listBatchSummaries(roomCode));
+    } catch (err) {
+      return res.status(err.statusCode || 500).json({ error: err.message });
+    }
+  },
+
   /** GET /api/rooms/:code/scheduling-runs */
   async listSchedulingRuns(req, res) {
     const roomCode = req.params.code?.toUpperCase();

@@ -377,12 +377,49 @@ code {
   padding: 16px;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.gantt-scroll-hint {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  margin: 0 0 8px 144px;
+}
+
+.gantt-batch-filter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 12px 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.gantt-batch-filter select {
+  max-width: min(100%, 420px);
+  padding: 7px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text-main);
+}
+
+.gantt-timeline-scroll {
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: #94a3b8 #e2e8f0;
+  scrollbar-width: thin;
+  padding-bottom: 5px;
+}
+
+.gantt-timeline-content {
+  min-width: 100%;
 }
 
 .gantt-row {
   display: grid;
-  grid-template-columns: 132px minmax(420px, 1fr);
+  grid-template-columns: 132px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
 }
@@ -442,6 +479,50 @@ code {
   transition: transform 0.1s ease;
 }
 
+.gantt-run-details {
+  margin-top: 10px;
+  color: var(--text-main);
+  font-size: 0.82rem;
+}
+
+.gantt-run-details summary {
+  cursor: pointer;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.gantt-run-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.gantt-run-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.gantt-run-item strong,
+.gantt-run-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gantt-run-item span {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+}
+
 .gantt-block:hover {
   transform: scaleY(1.08);
   z-index: 2;
@@ -467,7 +548,7 @@ code {
   font-size: 0.75rem;
   color: var(--text-muted);
   display: grid;
-  grid-template-columns: 132px minmax(420px, 1fr);
+  grid-template-columns: 132px minmax(0, 1fr);
   gap: 12px;
   padding: 0;
 }

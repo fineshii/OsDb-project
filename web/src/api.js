@@ -65,6 +65,11 @@ export const api = {
     return handleResponse(res);
   },
 
+  async listBatches(roomCode) {
+    const res = await fetch(`${BASE_URL}/api/rooms/${roomCode}/batches`);
+    return handleResponse(res);
+  },
+
   async listSchedulingRuns(roomCode) {
     const res = await fetch(`${BASE_URL}/api/rooms/${roomCode}/scheduling-runs`);
     return handleResponse(res);

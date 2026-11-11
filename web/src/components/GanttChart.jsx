@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function formatDuration(milliseconds) {
   if (milliseconds < 1000) return `${Math.round(milliseconds)} ms`;
@@ -6,6 +6,7 @@ function formatDuration(milliseconds) {
 }
 
 export function GanttChart({ ganttRuns = [], workers = [] }) {
+  const [selectedBatch, setSelectedBatch] = useState('latest');
   const validRuns = ganttRuns
     .map((run) => ({
       ...run,
@@ -14,7 +15,22 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
     }))
     .filter((run) => Number.isFinite(run.startMs) && Number.isFinite(run.endMs));
 
-  if (validRuns.length === 0) {
+  const batches = (() => {
+    const grouped = new Map();
+    for (const run of validRuns) {
+      const key = String(run.batchTime ?? 'unknown');
+      if (!grouped.has(key)) grouped.set(key, { key, time: Number(run.batchTime), runs: 0 });
+      grouped.get(key).runs += 1;
+    }
+    return [...grouped.values()].sort((a, b) => b.time - a.time);
+  })();
+  const activeBatchKey = selectedBatch === 'latest' ? batches[0]?.key : selectedBatch;
+  const visibleRuns = activeBatchKey
+    && activeBatchKey !== 'all'
+    ? validRuns.filter((run) => String(run.batchTime ?? 'unknown') === activeBatchKey)
+    : validRuns;
+
+  if (visibleRuns.length === 0) {
     return (
       <div className="card gantt-chart" id="gantt">
         <h2>Execution timeline</h2>
@@ -23,24 +39,26 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
     );
   }
 
-  const minTime = Math.min(...validRuns.map((run) => run.startMs));
-  const maxTime = Math.max(...validRuns.map((run) => run.endMs));
+  const minTime = Math.min(...visibleRuns.map((run) => run.startMs));
+  const maxTime = Math.max(...visibleRuns.map((run) => run.endMs));
   const totalDuration = Math.max(1, maxTime - minTime);
+  // Keep long runs readable: 3 px per second with a useful minimum, scrolled horizontally.
+  const timelineWidth = Math.max(640, Math.min(12000, (totalDuration / 1000) * 3));
   const workerNames = Array.from(
-    new Set([...workers.map((worker) => worker.name), ...validRuns.map((run) => run.workerName)])
+    new Set([...workers.map((worker) => worker.name), ...visibleRuns.map((run) => run.workerName)])
   ).sort((a, b) => a.localeCompare(b));
 
   const runsByWorker = Object.fromEntries(
     workerNames.map((name) => [
       name,
-      validRuns.filter((run) => run.workerName === name).sort((a, b) => a.startMs - b.startMs),
+      visibleRuns.filter((run) => run.workerName === name).sort((a, b) => a.startMs - b.startMs),
     ])
   );
 
-  const completedRuns = validRuns.filter((run) => run.outcome === 'done');
-  const failedRuns = validRuns.filter((run) => run.outcome === 'failed');
-  const requeuedRuns = validRuns.filter((run) => run.outcome === 'requeued');
-  const activeRuns = validRuns.filter((run) => !run.outcome);
+  const completedRuns = visibleRuns.filter((run) => run.outcome === 'done');
+  const failedRuns = visibleRuns.filter((run) => run.outcome === 'failed');
+  const requeuedRuns = visibleRuns.filter((run) => run.outcome === 'requeued');
+  const activeRuns = visibleRuns.filter((run) => !run.outcome);
   const completedDurations = completedRuns.map((run) => Math.max(0, run.endMs - run.startMs));
   const averageDuration = completedDurations.length
     ? completedDurations.reduce((sum, duration) => sum + duration, 0) / completedDurations.length
@@ -96,10 +114,19 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
         </div>
       </div>
 
+      <label className="gantt-batch-filter">Batch
+        <select value={selectedBatch === 'latest' ? (batches[0]?.key || 'all') : selectedBatch} onChange={(event) => setSelectedBatch(event.target.value)}>
+          <option value="all">All batches ({validRuns.length} runs)</option>
+          {batches.map((batch) => <option key={batch.key} value={batch.key}>
+            {Number.isFinite(batch.time) ? new Date(batch.time).toLocaleString() : 'Unknown batch'} · {batch.runs} runs
+          </option>)}
+        </select>
+      </label>
+
       <div className="gantt-insights">
         <div className="gantt-insight">
           <span>Total runs</span>
-          <strong>{validRuns.length}</strong>
+          <strong>{visibleRuns.length}</strong>
         </div>
         <div className="gantt-insight">
           <span>Completed</span>
@@ -128,6 +155,10 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
       </div>
 
       <div className="gantt-container">
+        <div className="gantt-label-column" aria-hidden="true" />
+        <div className="gantt-scroll-hint">Scroll horizontally to explore the timeline →</div>
+        <div className="gantt-timeline-scroll">
+          <div className="gantt-timeline-content" style={{ width: `${timelineWidth}px` }}>
         {workerNames.map((name) => {
           const runs = runsByWorker[name] || [];
           const workerWorkMs = runs.reduce(
@@ -144,15 +175,12 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
                   {formatDuration(workerWorkMs)} work
                 </small>
               </div>
-              <div className="gantt-track">
+              <div className="gantt-track" style={{ width: `${timelineWidth}px` }}>
                 {runs.map((run) => {
                   const durationMs = Math.max(0, run.endMs - run.startMs);
-                  const leftPercent = Math.max(
-                    0,
-                    Math.min(99.55, ((run.startMs - minTime) / totalDuration) * 100)
-                  );
-                  const exactWidth = (durationMs / totalDuration) * 100;
-                  const widthPercent = Math.max(0.45, Math.min(100 - leftPercent, exactWidth));
+                  const leftPx = ((run.startMs - minTime) / totalDuration) * timelineWidth;
+                  const exactWidth = (durationMs / totalDuration) * timelineWidth;
+                  const widthPx = Math.max(14, Math.min(timelineWidth - leftPx, exactWidth));
                   const fileLabel = run.fileName || `Job #${run.jobId}`;
                   const outcome = run.outcome || 'running';
                   const startOffset = formatDuration(run.startMs - minTime);
@@ -163,13 +191,13 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
                       key={run.id || `${run.jobId}-${run.startMs}`}
                       className={`gantt-block ${getOutcomeClass(run.outcome)}`}
                       style={{
-                        left: `${leftPercent}%`,
-                        width: `${widthPercent}%`,
+                        left: `${leftPx}px`,
+                        width: `${widthPx}px`,
                       }}
                       title={`${fileLabel}${runType} · ${name}\nStarted +${startOffset}\nRun time: ${formatDuration(durationMs)}\nStatus: ${outcome}`}
                       aria-label={`${fileLabel}, worker ${name}, ${formatDuration(durationMs)}, ${outcome}`}
                     >
-                      #{run.jobId}
+                      {widthPx >= 88 ? fileLabel : `#${run.jobId}`}
                     </div>
                   );
                 })}
@@ -185,6 +213,23 @@ export function GanttChart({ ganttRuns = [], workers = [] }) {
             ))}
           </div>
         </div>
+          </div>
+        </div>
+        <details className="gantt-run-details">
+            <summary>View all {visibleRuns.length} runs</summary>
+          <div className="gantt-run-list">
+            {visibleRuns
+              .slice()
+              .sort((a, b) => a.startMs - b.startMs)
+              .map((run) => (
+                <div className="gantt-run-item" key={run.id || `${run.jobId}-${run.startMs}`}>
+                  <strong>{run.fileName || `Job #${run.jobId}`}</strong>
+                  <span>Job #{run.jobId} · {run.workerName}</span>
+                  <span>{formatDuration(run.endMs - run.startMs)} · {run.outcome || 'running'}</span>
+                </div>
+              ))}
+          </div>
+        </details>
       </div>
     </div>
   );
